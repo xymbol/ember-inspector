@@ -4,7 +4,7 @@ var oneWay = Ember.computed.oneWay,
     equal = Ember.computed.equal;
 
 export default Ember.Controller.extend({
-  needs: ['mixin-stack', 'mixin-details'],
+  needs: ['mixin-stack', 'mixin-details', 'deprecations'],
 
   emberApplication: false,
   navWidth: 180,
@@ -12,6 +12,8 @@ export default Ember.Controller.extend({
   mixinStack: oneWay('controllers.mixin-stack').readOnly(),
   mixinDetails: oneWay('controllers.mixin-details').readOnly(),
   isChrome: equal('port.adapter.name', 'chrome'),
+
+  deprecationCount: 0,
 
   // Indicates that the extension window is focused,
   active: true,
