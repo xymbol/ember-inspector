@@ -4,7 +4,7 @@ var oneWay = Ember.computed.oneWay,
     equal = Ember.computed.equal;
 
 export default Ember.Controller.extend({
-  needs: ['mixin-stack', 'mixin-details', 'deprecations'],
+  needs: ['mixin-stack', 'mixin-details'],
 
   emberApplication: false,
   navWidth: 180,

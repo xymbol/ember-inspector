@@ -25,6 +25,7 @@ export default TabRoute.extend({
         if (record) {
           set(record, 'count', item.count);
           set(record, 'sources', item.sources);
+          set(record, 'url', item.url);
         } else {
           model.pushObject(item);
         }

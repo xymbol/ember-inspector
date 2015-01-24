@@ -78,6 +78,7 @@ export default EmberObject.extend(PortMixin, {
       obj = grouped[id];
       if (obj) {
         obj.count++;
+        obj.url = obj.url || deprecation.url;
       } else {
         obj = deprecation;
         obj.count = 1;
