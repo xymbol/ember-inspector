@@ -50,6 +50,11 @@ export default TabRoute.extend({
             sources: [source]
           }
         });
+      },
+
+      clear: function() {
+        this.get('port').send('deprecation:clear');
+        this.get('currentModel').clear();
       }
 
     }

@@ -142,8 +142,13 @@ export default EmberObject.extend(PortMixin, {
 
     getCount: function() {
       this.sendCount();
-    }
+    },
 
+    clear: function() {
+      run.cancel(this.debounce);
+      this.get('deprecations').clear();
+      this.set('groupedDeprecations', {});
+    }
   },
 
   willDestroy: function() {
