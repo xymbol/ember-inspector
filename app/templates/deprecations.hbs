@@ -2,7 +2,7 @@
 
   <div class="ember-list-container">
     {{#view "render-list"}}
-      {{#each item in model itemController="deprecation-item"}}
+      {{#each item in filtered itemController="deprecation-item"}}
         <div data-label="deprecation-row" class="list-tree__item-wrapper row-wrapper">
           <div class="list-tree__item row" data-label="deprecation-item">
 
