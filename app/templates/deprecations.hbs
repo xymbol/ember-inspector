@@ -55,6 +55,11 @@
           </div>
         {{/if}}
         {{/if}}
+       {{else}}
+         <div class="notice" data-label="page-refresh">
+           <p>No deprecations have been detected. Try reloading to catch the deprecations that were logged before you opened the inspector.</p>
+           <button data-label="page-refresh-btn" {{action "refreshPage"}}>Reload</button>
+         </div>
       {{/each}}
     {{/view}}
   </div>

@@ -167,8 +167,12 @@ export default EmberObject.extend(PortMixin, {
       // Code taken from https://github.com/emberjs/ember.js/blob/master/packages/ember-debug/lib/main.js
       var noDeprecation;
 
-      if (typeof test === 'function') {
-        noDeprecation = test();
+      if (typeof test === 'function' && !(Ember.Object.detect(test))) {
+        // try/catch to support old Ember versions
+        try { noDeprecation = test(); }
+        catch (e) {
+          noDeprecation = true;
+        }
       } else {
         noDeprecation = test;
       }
@@ -213,7 +217,9 @@ export default EmberObject.extend(PortMixin, {
 
       self.get('deprecationsToSend').pushObject(deprecation);
       self.debounce = run.debounce(self, 'sendPending', 100);
-      return originalDeprecate.apply(null, arguments);
+      if (originalDeprecate) {
+        return originalDeprecate.apply(null, arguments);
+      }
     };
   }
 
