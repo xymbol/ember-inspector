@@ -2,7 +2,7 @@ import Ember from "ember";
 /*globals require */
 var EmberDebug = require("ember-debug/main")["default"];
 
-var port, name, message, RSVP = Ember.RSVP;
+var port, name, message;
 var EmberDebug;
 var run = Ember.run;
 var App;
@@ -26,7 +26,7 @@ module("Deprecation Debug", {
       setupApp();
       EmberDebug.set('application', App);
     });
-    Ember.run(EmberDebug, 'start');
+    run(EmberDebug, 'start');
     port = EmberDebug.port;
     EmberDebug.deprecationDebug.reopen({
       fetchSourceMap: function() {},
@@ -51,10 +51,11 @@ test("deprecations are caught and sent", function() {
       });
     }
   });
+
   App.ApplicationRoute = Ember.Route.extend({
     setupController: function() {
       Ember.deprecate('Deprecation 1');
-      Ember.deprecate('Deprecation 2');
+      Ember.deprecate('Deprecation 2', false, { url: 'http://www.emberjs.com' }) ;
       Ember.deprecate('Deprecation 1');
     }
   });
@@ -63,6 +64,18 @@ test("deprecations are caught and sent", function() {
   andThen(function() {
     var deprecations = messages.findBy('name', 'deprecation:deprecationsAdded').message.deprecations;
     equal(deprecations.length, 2);
+    var deprecation = deprecations[0];
+    equal(deprecation.count, 2, 'Correctly combined');
+    equal(deprecation.message, 'Deprecation 1');
+    equal(deprecation.sources.length, 2, 'Correctly separated by source');
+    deprecation = deprecations[1];
+    equal(deprecation.count, 1);
+    equal(deprecation.message, 'Deprecation 2');
+    equal(deprecation.sources.length, 1);
+    equal(deprecation.url, 'http://www.emberjs.com');
+
+    var count = messages.findBy('name', 'deprecation:count').message.count;
+    equal(count, 3, 'count correctly sent');
   });
 
 });
